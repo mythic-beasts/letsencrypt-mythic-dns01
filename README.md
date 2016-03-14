@@ -5,6 +5,8 @@ These are hook scripts for the [letsencrypt.sh client](https://github.com/lukas2
 for verifying Let's Encrypt SSL certificates using 
 [DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
 
+The bash version of this script was originally written by [David Earl](https://github.com/davidearl).
+
 Usage
 -----
 
@@ -28,9 +30,5 @@ letsencrypt.sh -c -t dns-01 -k ./letsencrypt-mythic-dns01.sh
 The script will look in the current directory for the dnsapi.config.txt file.
 
 Perl and Shell versions of this hook are provided.  The Perl version has the minor advantage that your DNS API password is not exposed on the command line invocation of curl.
-
-
-
-
 
 
