@@ -1,7 +1,7 @@
 letsencrypt-mythic-dns01
 ========================
 
-These are hook scripts for the [letsencrypt.sh client](https://github.com/lukas2511/letsencrypt.sh)
+These are hook scripts for the [dehydrated client](https://github.com/lukas2511/dehydrated)
 for verifying Let's Encrypt SSL certificates using 
 [DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
 
