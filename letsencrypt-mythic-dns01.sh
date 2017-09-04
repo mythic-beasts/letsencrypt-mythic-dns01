@@ -1,23 +1,37 @@
 #!/bin/sh
 
 #
-# Simple hook script for letsencrypt.sh[1] for using Mythic Beasts DNS API
+# Simple hook script for dehydrated[1] for using Mythic Beasts DNS API
 #
-# [1] https://github.com/lukas2511/letsencrypt.sh
+# [1] https://github.com/lukas2511/dehydrated
 
 CONFIG=${MYTHIC_DNS_CONFIG:-/etc/dehydrated/dnsapi.config.txt}
+
+# configure the busy wait loop; max time is $sleep * $maxtries
+sleep=2
+maxtries=49
+servers=3
 
 call_api () {
     ACTION=$1
     while read DNSDOMAIN DNSAPIPASSWORD; do
         case $2 in
         *$DNSDOMAIN)
-            RECORD=$(echo "_acme-challenge.$2" | sed -e "s/\\.$DNSDOMAIN\$//")
+            FULLRR=_acme-challenge.$2
+            RECORD=$(basename $FULLRR .$DNSDOMAIN)
             echo -n "$DNSAPIPASSWORD" |
                 curl --data-urlencode "domain=$DNSDOMAIN" --data-urlencode "password@-" --data-urlencode "command=$ACTION $RECORD 30 TXT $4" https://dnsapi.mythic-beasts.com/
-            if [ "$ACTION" = "REPLACE" ]; then
-                echo " ++ sleeping 60 seconds for change to take effect..."
-                sleep 60
+            if [ "$ACTION" = REPLACE ]; then
+                echo " ++ waiting for DNS record to go live..."
+                for i in $(seq $maxtries); do
+                    server=ns$(expr $i % $servers).mythic-beasts.com
+                    test "$(dig @$server +short $FULLRR txt)" && break
+                    sleep $sleep
+                done
+                if [ "$i" -eq "$maxtries" ]; then
+                    echo challenge record not found in DNS >&2
+                    exit 1
+                fi
             fi
             break
             ;;
@@ -32,5 +46,5 @@ elif [ "$1" = "clean_challenge" ]; then
     call_api DELETE $2 $3 $4
 else
     echo "hook said..."
-    echo "$1 $2 $3 $4"
+    echo "$@"
 fi
