@@ -5,7 +5,8 @@
 #
 # [1] https://github.com/lukas2511/letsencrypt.sh
 
-CONFIG=dnsapi.config.txt
+CONFIG=${MYTHIC_DNS_CONFIG:-/etc/dehydrated/dnsapi.config.txt}
+
 call_api () {
     ACTION=$1
     while read DNSDOMAIN DNSAPIPASSWORD; do
