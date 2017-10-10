@@ -24,7 +24,7 @@ wait_for_dns() {
     for i in $(seq $MAXTRIES); do
         sleep $SLEEP
         for s in $SERVERS; do
-            dig $DIGOPT @$s $key txt | grep -q $val || continue 2
+            dig $DIGOPT @$s $key txt | grep -q -e $val || continue 2
         done
         break
     done
