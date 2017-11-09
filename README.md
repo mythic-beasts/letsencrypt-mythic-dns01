@@ -23,14 +23,13 @@ example.net myS3cretPassword
 example.com myOtherS3cretPassword
 ````
 
-You can then provide this script to the ``-k`` option to ``letsencrypt.sh``:
+You can then provide this script to the ``-k`` option to ``dehydrated``:
 
 ````
-letsencrypt.sh -c -t dns-01 -k ./letsencrypt-mythic-dns01.sh
+dehydrated -c -t dns-01 -k ./letsencrypt-mythic-dns01.sh
 ````
 
 The script will look in the current directory for the ``dnsapi.config.txt``
 file.
 
 Perl and Shell versions of this hook are provided.
-
