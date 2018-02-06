@@ -20,11 +20,12 @@ DIGOPT='+time=1 +tries=1 +short'
 wait_for_dns() {
     local key val i s
     key="$1" val="$2"
-    echo " ++ waiting for DNS record to go live..."
     for i in $(seq $MAXTRIES); do
-        sleep $SLEEP
         for s in $SERVERS; do
-            dig $DIGOPT @$s $key txt | grep -q -e $val || continue 2
+            if ! dig $DIGOPT @$s $key txt | grep -q -e $val; then
+               sleep $SLEEP
+               continue 2
+            fi
         done
         break
     done
@@ -49,15 +50,28 @@ call_api() {
     done < $CONFIG
 }
 
-DNS_NAME="_acme-challenge.$2"
-case $1 in
+action=$1
+shift
+
+case $action in
     deploy_challenge)
-        echo " ++ setting DNS for $2 to $4"
-        call_api REPLACE $DNS_NAME $4
-        wait_for_dns $DNS_NAME $4
+        args=''
+        while [ "$1" ]; do args="$args$1 $3\n"; shift 3; done
+        echo -n "$args" | while read domain token; do
+            echo " ++ setting DNS for $domain"
+            call_api REPLACE _acme-challenge.$domain $token
+        done
+        echo -n "$args" | while read domain token; do
+            echo " ++ waiting DNS for $domain"
+            wait_for_dns _acme-challenge.$domain $token
+        done
         ;;
     clean_challenge)
-        echo " ++ cleaning DNS for $2 with $4"
-        call_api DELETE $DNS_NAME $4
+        args=''
+        while [ "$1" ]; do args="$args$1 $3\n"; shift 3; done
+        echo -n "$args" | while read domain token; do
+            echo " ++ cleaning DNS for $domain"
+            call_api DELETE _acme-challenge.$domain $token
+        done
         ;;
 esac
