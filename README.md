@@ -1,5 +1,5 @@
-letsencrypt-mythic-dns01
-========================
+dehydrated-mythic-dns01
+=======================
 
 These are hook scripts for the [dehydrated client](https://github.com/lukas2511/dehydrated)
 for verifying Let's Encrypt SSL certificates using 
@@ -26,7 +26,7 @@ example.com myOtherS3cretPassword
 You can then provide this script to the `-k` option to `dehydrated`:
 
 ````Shell
-dehydrated -c -t dns-01 -k ./letsencrypt-mythic-dns01.sh
+dehydrated -c -t dns-01 -k ./dehydrated-mythic-dns01.sh
 ````
 
 The script will look in the current directory for the `dnsapi.config.txt`
