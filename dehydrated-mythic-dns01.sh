@@ -10,9 +10,9 @@ export ARGS="$args"
 
 case $action in
     deploy_challenge)
-        "$(dirname "$0")"/deploy-challenge/mythic-dns01.sh
+        "$(dirname "$0")"/deploy-challenge/mythic-dns01
         ;;
     clean_challenge)
-        "$(dirname "$0")"/clean-challenge/mythic-dns01.sh
+        "$(dirname "$0")"/clean-challenge/mythic-dns01
         ;;
 esac
