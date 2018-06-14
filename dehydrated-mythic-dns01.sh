@@ -5,7 +5,7 @@
 action=$1
 shift
 args=''
-while [ "$1" ]; do args="$args$1 $2 $3\n"; shift 3; done
+while [ -n "$3" ]; do args="$args$1 $2 $3\n"; shift 3; done
 export ARGS="$args"
 
 case $action in
