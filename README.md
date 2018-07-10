@@ -7,7 +7,7 @@ for verifying Let's Encrypt SSL certificates using
 
 A [step-by-step guide](https://www.mythic-beasts.com/support/domains/letsencrypt_dns_01) to using this script can be found on the [Mythic Beasts](https://www.mythic-beasts.com/) website.
 
-The bash version of this script was originally written by [David Earl](https://github.com/davidearl).
+The script was originally written by [David Earl](https://github.com/davidearl).
 
 Usage
 -----
@@ -15,23 +15,36 @@ Usage
 To use these scripts you will need to set a DNS API password for your domains
 using the [Mythic Beasts control panel](https://ctrlpanel.mythic-beasts.com)
 
-Then create a file called `dnsapi.config.txt` containing your domain name and
-password.  You can add multiple domains, one per line:
+Then create the file `/etc/dehydrated/dnsapi.config.txt` containing your domain
+name and password. You can add multiple domains, one per line:
 
 ````
 example.net myS3cretPassword
 example.com myOtherS3cretPassword
 ````
 
-You can then provide this script to the `-k` option to `dehydrated`:
+To tell `dehydrated` to use the hook script, provide its path via the `-k`
+option. You will also need `-t dns-01` to use DNS-01 validation:
 
 ````Shell
-dehydrated -c -t dns-01 -k ./dehydrated-mythic-dns01.sh
+dehydrated -c -t dns-01 -k .../path/to/dehydrated-mythic-dns01.sh
 ````
 
-The script will look in the current directory for the `dnsapi.config.txt`
-file.
+Or you can set the `HOOK` and `CHALLENGETYPE` configuration variables, by
+creating the file `/etc/dehydrated/conf.d/hook.sh` with this content:
 
-Perl and Shell versions of this hook are provided. We recommend the Shell
-version. At the time of writing, the Shell version has several features not
-found in the Perl version.
+````
+HOOK=.../path/to/dehydrated-mythic-dns01.sh
+CHALLENGETYPE=dns-01
+````
+
+If you need to combine this hook with others, take a look at
+[dehydrated-code-rack](https://github.com/mythic-beasts/dehydrated-code-rack).
+Link to the scripts something like this:
+
+````Shell
+for d in common clean-challenge deploy-challenge; do
+    mkdir -p /etc/dehydrated/hooks/$d
+    ln -s $d/mythic-dns01 /etc/dehydrated/hooks/$d
+done
+````
