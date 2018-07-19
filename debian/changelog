@@ -1,3 +1,9 @@
+dehydrated-mythic-dns01 (0.2) unstable; urgency=medium
+
+  * add configuration for challenge.sh
+
+ -- Toby Goodwin <support@mythic-beasts.com>  Thu, 19 Jul 2018 18:50:55 +0100
+
 dehydrated-mythic-dns01 (0.1) unstable; urgency=low
 
   * Initial Release.
