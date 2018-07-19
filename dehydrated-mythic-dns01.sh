@@ -2,19 +2,21 @@
 
 # Copyright (c) 2018 Mythic Beasts Ltd
 
+group_args() {
+    local nl
+    nl='
+'
+    ARGS=''
+    while [ "$1" ]; do ARGS="$ARGS$1 $2 $3$nl"; shift 3; done
+    export ARGS
+}
+
 action=$1
 shift
-args=''
-nl='
-'
-while [ "$1" ]; do args="$args$1 $2 $3$nl"; shift 3; done
-export ARGS="$args"
 
 case $action in
-    deploy_challenge)
-        "$(dirname "$0")"/deploy-challenge/mythic-dns01
-        ;;
-    clean_challenge)
-        "$(dirname "$0")"/clean-challenge/mythic-dns01
+    deploy_challenge|clean_challenge)
+        group_args
+        "$(dirname "$0")"/${action/_/-}/mythic-dns01
         ;;
 esac
