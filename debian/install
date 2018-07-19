@@ -1,0 +1,4 @@
+clean-challenge/mythic-dns01 etc/dehydrated/hooks/clean-challenge
+common/mythic-dns01 etc/dehydrated/hooks/common
+deploy-challenge/mythic-dns01 etc/dehydrated/hooks/deploy-challenge
+dehydrated-mythic-dns01.sh etc/dehydrated/hooks
