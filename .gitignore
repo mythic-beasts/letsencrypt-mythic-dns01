@@ -1,2 +1,4 @@
 debian/dehydrated-mythic-dns01
 debian/dehydrated-mythic-dns01.debhelper.log
+debian/dehydrated-mythic-dns01
+debian/files
