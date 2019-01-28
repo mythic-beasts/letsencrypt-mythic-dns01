@@ -7,7 +7,7 @@ SLEEP=5
 MAXTRIES=60
 
 # all our public authoritative servers
-SERVERS="ns1.mythic-beasts.com ns2.mythic-beasts.com ns3.mythic-beasts.com"
+SERVERS="ns1.mythic-beasts.com ns2.mythic-beasts.com"
 
 # dig options
 DIGOPT='+time=1 +tries=1 +short'
