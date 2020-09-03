@@ -5,6 +5,8 @@ These are hook scripts for the [dehydrated client](https://github.com/lukas2511/
 for verifying Let's Encrypt SSL certificates using 
 [DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
 
+Note that this hook currently uses the older [DNS API v1](https://www.mythic-beasts.com/support/api/dns).  Support for the [DNS API v2](https://www.mythic-beasts.com/support/api/dnsv2) is planned.
+
 A [step-by-step guide](https://www.mythic-beasts.com/support/domains/letsencrypt_dns_01) to using this script can be found on the [Mythic Beasts](https://www.mythic-beasts.com/) website.
 
 The script was originally written by [David Earl](https://github.com/davidearl).
