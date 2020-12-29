@@ -48,11 +48,19 @@ call_api() {
                 case $action in
                     ADD)
                         echo -n "user = ${dns_api_pass}:${dns_api_secret}" |
-                            curl -K - -X POST https://api.mythic-beasts.com/dns/v2/zones/${dns_domain}/records/${rr_part}/TXT -d data="${val}"
+                            curl -f -K - -X POST https://api.mythic-beasts.com/dns/v2/zones/${dns_domain}/records/${rr_part}/TXT -d data="${val}"
+                            if [ $? -ne 0 ]; then
+                                echo "Error adding DNS records"
+                                exit 2
+                            fi
                     ;;
                     DELETE)
                         echo -n "user = ${dns_api_pass}:${dns_api_secret}" |
-                            curl -K - -X DELETE https://api.mythic-beasts.com/dns/v2/zones/${dns_domain}/records/${rr_part}/TXT
+                            curl -f -K - -X DELETE https://api.mythic-beasts.com/dns/v2/zones/${dns_domain}/records/${rr_part}/TXT
+                            if [ $? -ne 0 ]; then
+                                echo "Error cleaning up DNS records"
+                                exit 3
+                            fi
                     ;;
                 esac
             fi
