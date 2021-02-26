@@ -3,26 +3,36 @@ dehydrated-mythic-dns01
 
 These are hook scripts for the [dehydrated client](https://github.com/lukas2511/dehydrated)
 for verifying Let's Encrypt SSL certificates using 
-[DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
+[DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with
+the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
 
-Note that this hook currently uses the older [DNS API v1](https://www.mythic-beasts.com/support/api/dns).  Support for the [DNS API v2](https://www.mythic-beasts.com/support/api/dnsv2) is planned.
+This hook supports both [DNS API v2](https://www.mythic-beasts.com/support/api/dnsv2) 
+and the older [DNS API v1](https://www.mythic-beasts.com/support/api/dns). We recommend 
+that new users use DNS API v2.
 
-A [step-by-step guide](https://www.mythic-beasts.com/support/domains/letsencrypt_dns_01) to using this script can be found on the [Mythic Beasts](https://www.mythic-beasts.com/) website.
+A [step-by-step guide](https://www.mythic-beasts.com/support/domains/letsencrypt_dns_01)
+to using this script can be found on the [Mythic Beasts](https://www.mythic-beasts.com/)
+website.
 
 The script was originally written by [David Earl](https://github.com/davidearl).
 
 Usage
 -----
 
-To use these scripts you will need to set a DNS API password for your domains
-using the [Mythic Beasts control panel](https://ctrlpanel.mythic-beasts.com)
+To use these scripts you will need to set a DNS API password or a v2 API token
+for your domains using the [Mythic Beasts control panel](https://ctrlpanel.mythic-beasts.com)
+
+If you're setting up tokens for the DNS API v2, you'll need to grant a permit for
+a TXT record with the hostname '_acme-challenge' for each domain that requires a
+certificate.
 
 Then create the file `/etc/dehydrated/dnsapi.config.txt` containing your domain
-name and password. You can add multiple domains, one per line:
+name and password or DNS API tokens. You can add multiple domains, one per line:
 
 ````
 example.net myS3cretPassword
 example.com myOtherS3cretPassword
+example.org ahneeWi0aePo2siH aetaj-o2bohshaev8aiDae0Suujoow
 ````
 
 To tell `dehydrated` to use the hook script, provide its path via the `-k`
