@@ -23,7 +23,8 @@ To use these scripts you will need to set a DNS API password or a v2 API token
 for your domains using the [Mythic Beasts control panel](https://ctrlpanel.mythic-beasts.com)
 
 If you're setting up tokens for the DNS API v2, you'll need to grant a permit for
-a TXT record with the hostname '_acme-challenge'.
+a TXT record with the hostname '_acme-challenge' for each domain that requires a
+certificate.
 
 Then create the file `/etc/dehydrated/dnsapi.config.txt` containing your domain
 name and password or DNS API tokens. You can add multiple domains, one per line:
