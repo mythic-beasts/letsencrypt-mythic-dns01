@@ -33,12 +33,21 @@ wait_for_dns() {
 call_api() {
     local action key val dns_domain dns_api_pass rr_part
     action="$1" key="$2" val="$3"
-    while read dns_domain dns_api_pass; do
+    while read dns_domain dns_api_id dns_api_secret; do
         case $key in
         *$dns_domain)
             rr_part=$(basename $key .$dns_domain)
-            echo -n "$dns_api_pass" |
-                curl --data-urlencode "domain=$dns_domain" --data-urlencode "password@-" --data-urlencode "command=$action $rr_part 30 TXT $val" https://dnsapi.mythic-beasts.com/
+            # can't think of a use-case for maintaining multiple challenge records at _acme-challenge.domain so we deliberately overwrite any existing ones and delete all at the end
+            BT=`curl -q --user "$dns_api_id":"$dns_api_secret" -d grant_type=client_credentials https://auth.mythic-beasts.com/login | jq -r ".access_token"`
+            case $action in
+              ADD)
+                curl -q -XPUT -H "Authorization: Bearer $BT" https://api.mythic-beasts.com/dns/v2/zones/$dns_domain/records/$rr_part/TXT -d "data=$val"
+              ;;
+              DELETE)
+                curl -q -XDELETE -H "Authorization: Bearer $BT" https://api.mythic-beasts.com/dns/v2/zones/$dns_domain/records/$rr_part/TXT
+              ;;
+            esac
+
             break
             ;;
         esac

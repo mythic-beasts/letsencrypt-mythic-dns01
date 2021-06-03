@@ -5,7 +5,7 @@ These are hook scripts for the [dehydrated client](https://github.com/lukas2511/
 for verifying Let's Encrypt SSL certificates using 
 [DNS validation](https://letsencrypt.github.io/acme-spec/#rfc.section.7.4) with the [Mythic Beasts](https://www.mythic-beasts.com) DNS API.
 
-Note that this hook currently uses the older [DNS API v1](https://www.mythic-beasts.com/support/api/dns).  Support for the [DNS API v2](https://www.mythic-beasts.com/support/api/dnsv2) is planned.
+Note that this hook uses the newer [DNS API v2](https://www.mythic-beasts.com/support/api/dnsv2).
 
 A [step-by-step guide](https://www.mythic-beasts.com/support/domains/letsencrypt_dns_01) to using this script can be found on the [Mythic Beasts](https://www.mythic-beasts.com/) website.
 
@@ -14,15 +14,18 @@ The script was originally written by [David Earl](https://github.com/davidearl).
 Usage
 -----
 
-To use these scripts you will need to set a DNS API password for your domains
+To use these scripts you will need to create credentials for your domains
 using the [Mythic Beasts control panel](https://ctrlpanel.mythic-beasts.com)
 
+The credentials only need to be able to add and remove TXT records at
+_acme-challenge under your domain (e.g. _acme-challenge.example.com)
+
 Then create the file `/etc/dehydrated/dnsapi.config.txt` containing your domain
-name and password. You can add multiple domains, one per line:
+client ID and secret. You can add multiple domains, one per line:
 
 ````
-example.net myS3cretPassword
-example.com myOtherS3cretPassword
+example.net clientId clientSecret
+example.com otherClientId otherClientSecret
 ````
 
 To tell `dehydrated` to use the hook script, provide its path via the `-k`
